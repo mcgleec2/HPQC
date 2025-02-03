@@ -28,12 +28,12 @@ int main(int argc, char **argv)
         }
 
 	// open the output file for writing
-	FILE *file - fopen("time_print1_output.txt", "w");
+	FILE *file = fopen("time_print1_output.txt", "w");
 	if (file == NULL)
 	{
-		fprintf(stderr, "Failed to open output file. /n);
+		fprintf(stderr, "Failed to open output file. /n");
 		exit(-1);
-}
+	}
 
         // gets the time before the loop
         timespec_get(&start_time, TIME_UTC);
