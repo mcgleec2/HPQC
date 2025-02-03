@@ -27,13 +27,21 @@ int main(int argc, char **argv)
                 exit(-1);
         }
 
+	// open the output file for writing
+	FILE *file - fopen("time_print1_output.txt", "w");
+	if (file == NULL)
+	{
+		fprintf(stderr, "Failed to open output file. /n);
+		exit(-1);
+}
+
         // gets the time before the loop
         timespec_get(&start_time, TIME_UTC);
-        // iterates over all numbers up the input
+        // iterates over all numbers up to the input
         for (i = 0; i < input; i++)
         {
-                // prints the index
-                printf("%d, ", i);
+                // writes the index to the file
+                fprintf(file, "%d, ", i);
         }
         // gets the time after the loop
         timespec_get(&end_time, TIME_UTC);
@@ -43,8 +51,11 @@ int main(int argc, char **argv)
         runtime = to_second_float(time_diff);
 
 
-        // outputs the runtime
-        printf("\n\nRuntime for core loop: %lf seconds.\n\n", runtime);
+        // writes  the runtime to the file
+        fprintf(file, "\n\nRuntime for core loop: %lf seconds.\n\n", runtime);
+
+	// closes the file after writing
+	fclose(file);
 
         return 0;
 }
