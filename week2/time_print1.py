@@ -1,5 +1,5 @@
 import sys
-import :time
+import time
 
 def main():
     output = 0
@@ -13,17 +13,21 @@ def main():
 
     # gets the start time for the loop
     start_time = time.time()
-    # iterates over all numbers up to the input
-    for i in range(in_arg):
-        # prints the index
-        print("{}, ".format(i), end="")
-    # gets the end time for the loop
-    end_time = time.time()
 
-    # gets the total time
-    run_time = end_time - start_time
-    # prints the output
-    print("\n\nTime for loop: {} seconds\n".format(run_time))
+    # open the file in write mode
+    with open("time_print1.py.txt", "w") as file:
+    	# iterates over all numbers up to the input
+    	for i in range(in_arg):
+        	# writes the index to the file
+        	file.write("{}, ".format(i))
+
+    	# gets the end time for the loop
+    	end_time = time.time()
+    	# gets the total time
+    	run_time = end_time - start_time
+
+    	# writes the output to the file
+    	file.write("\n\nTime for loop: {} seconds\n".format(run_time))
 
 if __name__ == "__main__":
     main()
