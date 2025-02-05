@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 	FILE *file = fopen("time_print1_output.txt", "w");
 	if (file == NULL)
 	{
-		fprintf(stderr, "Failed to open output file. /n");
+		fprintf(stderr, "Failed to open output file. \n");
 		exit(-1);
 	}
 
