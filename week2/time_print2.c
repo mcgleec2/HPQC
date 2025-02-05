@@ -31,7 +31,7 @@ int main(int argc, char **argv)
         FILE *file = fopen("time_print1_output.txt", "w");
         if (file == NULL)
         {
-                fprintf(stderr, "Failed to open output file. /n");
+                fprintf(stderr, "Failed to open output file. \n");
                 exit(-1);
         }
 
@@ -62,12 +62,11 @@ int main(int argc, char **argv)
 	FILE *file_read = fopen("time_print1_output.txt", "r");
 	if (file_read == NULL)
 	{
-		fprintf(stderr, "Failed to open file for reading. /n");
+		fprintf(stderr, "Failed to open file for reading. \n");
 		exit(-1);
 	}
 
 	// reads and prints the contents of the file
-	printf("Contents of the file:/n")
 	while (fgets(buffer, sizeof(buffer), file_read) != NULL)
 	{
 		// prints each line
