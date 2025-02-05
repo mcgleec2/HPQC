@@ -51,7 +51,7 @@ int main(int argc, char **argv)
         runtime = to_second_float(time_diff);
 
 
-        // writes  the runtime to the file
+        // writes the runtime to the file
         fprintf(file, "\n\nRuntime for core loop: %lf seconds.\n\n", runtime);
 
         // closes the file after writing
@@ -59,11 +59,19 @@ int main(int argc, char **argv)
 
 	// reads the contents of the file to memory
 	char buffer[1024]; // change size as needed
-	FILE *file_read = fopen(time_print1_output.txt", "r");
+	FILE *file_read = fopen("time_print1_output.txt", "r");
 	if (file_read == NULL)
 	{
 		fprintf(stderr, "Failed to open file for reading. /n");
 		exit(-1);
+	}
+
+	// reads and prints the contents of the file
+	printf("Contents of the file:/n")
+	while (fgets(buffer, sizeof(buffer), file_read) != NULL)
+	{
+		// prints each line
+		printf("%s", buffer);
 	}
 
 	// closes the file after reading
