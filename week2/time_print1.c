@@ -27,8 +27,19 @@ int main(int argc, char **argv)
                 exit(-1);
         }
 
+	// get the home directory
+	const char *home_dir = getenv("HOME");
+	if (home_dir == NULL)
+	{
+		fprintf(stderr, "Failed to get home directory:\n");
+	}
+
+	// create the full path by concatenating the home directory with the rest of the path
+	char file_path[256];
+	snprintf(file_path, sizeof(file_path), "%s/data/week2/time_print1_output.txt", home_dir);
+
 	// open the output file for writing
-	FILE *file = fopen("time_print1_output.txt", "w");
+	FILE *file = fopen(file_path, "w");
 	if (file == NULL)
 	{
 		fprintf(stderr, "Failed to open output file. \n");
