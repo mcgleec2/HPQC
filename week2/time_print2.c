@@ -27,11 +27,23 @@ int main(int argc, char **argv)
                 exit(-1);
         }
 
+	// gets the home directory
+	const char *home_dir = getenv("HOME");
+	if (home_dir == NULL)
+	{
+		fprintf(stderr, "Failed to get home directory.\n");
+		exit(-1);
+	}
+
+	// creates full path by concatenating the home directory with the rest of the path for writing
+	char write_path[256];
+	snprintf(write_path, sizeof(write_path), "%s/data/week2/time_print1_output.txt", home_dir);
+
         // open the output file for writing
-        FILE *file = fopen("time_print1_output.txt", "w");
+        FILE *file = fopen(write_path, "w");
         if (file == NULL)
         {
-                fprintf(stderr, "Failed to open output file. \n");
+                fprintf(stderr, "Failed to open output file for writing. %s\n", write_path);
                 exit(-1);
         }
 
@@ -57,12 +69,16 @@ int main(int argc, char **argv)
         // closes the file after writing
         fclose(file);
 
+	// creates the full path by concatenating the home directory with the rest of the path for reading
+	char read_path[256];
+	snprintf(read_path, sizeof(read_path), "%s/data/week2/time_print1_output.txt", home_dir);
+
 	// reads the contents of the file to memory
 	char buffer[1024]; // change size as needed
-	FILE *file_read = fopen("time_print1_output.txt", "r");
+	FILE *file_read = fopen(read_path, "r");
 	if (file_read == NULL)
 	{
-		fprintf(stderr, "Failed to open file for reading. \n");
+		fprintf(stderr, "Failed to open file for reading. %s\n", read_path);
 		exit(-1);
 	}
 
