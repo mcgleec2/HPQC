@@ -14,8 +14,9 @@ def main():
 	# gets the start time for the loop
 	start_time = time.time()
 
-	# open the file in write mode
-	with open("time_print1.py.txt", "w") as file:
+	# opens the file in write mode, in the 'data/weeek2' directory
+	file_path = "data/week2/time_print1.py.txt"
+	with open(file_path, "w") as file:
 		# iterates over all numbers up to the input
 		for i in range(in_arg):
 			# writes the index to the file
@@ -30,7 +31,7 @@ def main():
 		file.write("\n\nTime for loop: {} seconds\n".format(run_time))
 
 	# reads the contents of the file into memory
-	with open("time_print1.py.txt", "r") as file:
+	with open(file_path, "r") as file:
 		file_contents = file.read()
 
 	# prints the contents of the file
