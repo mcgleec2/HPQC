@@ -15,7 +15,7 @@ def main():
     start_time = time.time()
 
     # open the file in write mode
-    with open("time_print1.py.txt", "w") as file:
+    with open("data/week2/time_print1.py.txt", "w") as file:
     	# iterates over all numbers up to the input
     	for i in range(in_arg):
         	# writes the index to the file
