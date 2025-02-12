@@ -2,8 +2,6 @@
 #include <stdlib.h>
 
 // declares the functions that will be called within main
-// note how declaration lines are similar to the initial line
-// of a function definition, but with a semicolon at the end;
 int check_args(int argc, char **argv);
 void initialise_vector(int vector[], int size, int initial);
 void print_vector(int vector[], int size);
@@ -20,8 +18,12 @@ int main(int argc, char **argv)
         // and initialises every element to zero
         initialise_vector(my_vector, num_arg, 0);
 
-
-        // TODO: put some code here that makes a more meaningful vector
+	// ***
+	// stores the square of each index in the vector
+	for (int i = 0; i < num_arg; i++)
+	{
+		my_vector[i] = i * i; // stores the square of the index
+	}
 
         // sums the vector
         int my_sum = sum_vector(my_vector, num_arg);
