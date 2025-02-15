@@ -1,3 +1,7 @@
+// Modified version of vector_serial.c program from PHY1090/week3
+// Program modified to return sum of the square of the indices
+// Original program returned sum of vector of zeroes
+
 #include <stdio.h>
 #include <stdlib.h>
 
