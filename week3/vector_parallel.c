@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 
     // declares variables
     int rank, num_proc, num_arg, chunk, start, stop;
-    int *my_vector, *sums_array, my_sum = 0, final_sum = 0;
+    int *my_vector, *sums_array, my_sum = 0, final_sum = 0, remainder;
 
     // gets rank of current process and  total number of processes
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -43,10 +43,13 @@ int main(int argc, char **argv)
     // splits the vector data across all processes
     MPI_Bcast(my_vector, num_arg, MPI_INT, 0, MPI_COMM_WORLD);
 
-    // calculates chunk size for each process
+    // calculates chunk size for each process (also deals with extra elements)
     chunk = num_arg / num_proc;
-    start = rank * chunk;
-    stop = (rank + 1) * chunk;
+    remainder = num_arg % num_proc;
+
+    // each process handles chunk size + 1 if it's one of the first remainder processes
+    start = rank * chunk + (rank < remainder ? rank : remainder);
+    stop = start + chunk + (rank < remainder ? 1 : 0);
 
     // calculates the local sum for this chunk
     for (int i = start; i < stop; i++)
