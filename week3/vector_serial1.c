@@ -3,7 +3,7 @@
 
 // declares the functions that will be called within main
 int check_args(int argc, char **argv);
-void initialise_vector(int vector[], int size, int initial);
+void initialise_vector(int vector[], int size); // removed int initial from brackets
 void print_vector(int vector[], int size);
 int sum_vector(int vector[], int size);
 
@@ -15,15 +15,9 @@ int main(int argc, char **argv)
         // creates a vector variable
         // int my_vector[num_arg]; // suffers issues for large vectors
         int* my_vector = malloc (num_arg * sizeof(int));
-        // and initialises every element to zero
-        initialise_vector(my_vector, num_arg, 0);
 
-	// ***
-	// stores the square of each index in the vector
-	for (int i = 0; i < num_arg; i++)
-	{
-		my_vector[i] = i * i; // stores the square of the index
-	}
+        // and initialises the vector with the squares of the index values
+        initialise_vector(my_vector, num_arg);
 
         // sums the vector
         int my_sum = sum_vector(my_vector, num_arg);
@@ -54,14 +48,14 @@ int sum_vector(int vector[], int size)
         return sum;
 }
 
-// defines a function to initialise all values in a vector to a given inital value
-void initialise_vector(int vector[], int size, int initial)
+// defines a function to initialise all values in a vector to the square of the indices
+void initialise_vector(int vector[], int size) // removed int initial from brackets again
 {
         // iterates through the vector
         for (int i = 0; i < size; i++)
         {
                 // sets the elements of the vector to the initial value
-                vector[i] = initial;
+                vector[i] = i * i; // stores the square of the index
         }
 }
 
