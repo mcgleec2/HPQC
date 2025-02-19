@@ -11,6 +11,11 @@ comm_test_mpi1_S.c = Modified comm_test_mpi1.c to use MPI_Ssend()
 comm_test_mpi1_B.c = Modified comm_test_mpi1.c to use MPI_Bsend()
 comm_test_mpi1_R.c = Modified comm_test_mpi1.c to use MPI_Rsend()
 comm_test_mpi1_I.c = Modified comm_test_mpi1.c to use MPI_Isend()
+Step 4:
+comm_test_mpi1_S.c = Added internal benchmarking
+comm_test_mpi1_B.c = Added internal benchmarking
+comm_test_mpi1_R.c = Added internal benchmarking
+comm_test_mpi1_I.c = Added internal benchmarking
 Part 2:
 Step 1:
 
