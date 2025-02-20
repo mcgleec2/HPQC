@@ -1,8 +1,39 @@
 // Using MPI_Bsend()
-//
 
 #include <stdio.h>
 #include <mpi.h>
+#include <time.h>
+#include <stdlib.h>
+
+// Convert timespec to seconds as a float
+double to_second_float(struct timespec in_time)
+{
+    double out_time = 0.0;
+    long int seconds = in_time.tv_sec;
+    long int nanoseconds = in_time.tv_nsec;
+
+    out_time = seconds + nanoseconds / 1e9; // Convert to seconds
+    return out_time;
+}
+
+// Calculate the difference between start and end times
+struct timespec calculate_runtime(struct timespec start_time, struct timespec end_time)
+{
+    struct timespec time_diff;
+    long int seconds = end_time.tv_sec - start_time.tv_sec;
+    long int nanoseconds = end_time.tv_nsec - start_time.tv_nsec;
+
+    if (nanoseconds < 0)
+    {
+        seconds -= 1;
+        nanoseconds += 1000000000; // Carry the 1
+    }
+
+    time_diff.tv_sec = seconds;
+    time_diff.tv_nsec = nanoseconds;
+
+    return time_diff;
+}
 
 // functions
 void initialize_mpi(int *argc, char ***argv, int *my_rank, int *uni_size);
@@ -52,20 +83,37 @@ void send_message_to_root(int my_rank, int uni_size)
     int tag = 0;
     int count = 1;
 
-    // gives buffer for message
-    int buffer[1];
+    // gives a buffer for MPI_Bsend
+    int buffer_size = 1024;  // defines buffer size
+    int *buffer = (int*) malloc(buffer_size * sizeof(int));
 
-    // copies message into buffer
-    buffer[0] = send_message;
+    // attaches buffer to MPI
+    MPI_Buffer_attach(buffer, buffer_size * sizeof(int));
 
-    // enables use of buffered sends
-    MPI_Buffer_attach(buffer, sizeof(buffer));
+    // Declare timespec variables for start and end times
+    struct timespec start_time, end_time;
 
-    // sends message to rank 0 using MPI_Bsend
+    // Get start time before the communication (using clock_gettime)
+    clock_gettime(CLOCK_MONOTONIC, &start_time);
+
+    // sends message to rank 0 using MPI_Bsend (buffered send)
     MPI_Bsend(&send_message, count, MPI_INT, dest, tag, MPI_COMM_WORLD);
 
-    // prints message
-    printf("Hello, I am %d of %d. Sent %d to Rank %d\n", my_rank, uni_size, send_message, dest);
+    // Get end time after the send
+    clock_gettime(CLOCK_MONOTONIC, &end_time);
+
+    // Calculate the runtime difference between start and end times
+    struct timespec time_diff = calculate_runtime(start_time, end_time);
+
+    // Convert the time difference to seconds
+    double elapsed_time = to_second_float(time_diff);
+
+    // Print the time for sending
+    printf("Rank %d took %f seconds to send %d to Rank %d using MPI_Bsend\n", my_rank, elapsed_time, send_message, dest);
+
+    // detaches and frees the buffer after operation
+    MPI_Buffer_detach(&buffer, &buffer_size);
+    free(buffer);
 }
 
 // function to handle receiving messages from other processes
@@ -77,6 +125,12 @@ void receive_message_from_others(int my_rank, int uni_size)
     int tag = 0;
     MPI_Status status;
 
+    // Declare timespec variables for start and end times
+    struct timespec start_time, end_time;
+
+    // Get start time before the communication (using clock_gettime)
+    clock_gettime(CLOCK_MONOTONIC, &start_time);
+
     // iterates through all ranks except root (rank 0)
     for (int their_rank = 1; their_rank < uni_size; their_rank++)
     {
@@ -85,8 +139,17 @@ void receive_message_from_others(int my_rank, int uni_size)
         // receives the message
         MPI_Recv(&recv_message, count, MPI_INT, source, tag, MPI_COMM_WORLD, &status);
 
-        // prints the received message
-        printf("Hello, I am %d of %d. Received %d from Rank %d\n", my_rank, uni_size, recv_message, source);
+        // Get end time after the receive
+        clock_gettime(CLOCK_MONOTONIC, &end_time);
+
+        // Calculate the runtime difference between start and end times
+        struct timespec time_diff = calculate_runtime(start_time, end_time);
+
+        // Convert the time difference to seconds
+        double elapsed_time = to_second_float(time_diff);
+
+        // prints the received message and the time taken to receive
+        printf("Rank %d took %f seconds to receive %d from Rank %d\n", my_rank, elapsed_time, recv_message, source);
     }
 }
 
@@ -112,4 +175,3 @@ void handle_communication(int my_rank, int uni_size)
         printf("Unable to communicate with less than 2 processes. MPI communicator size = %d\n", uni_size);
     }
 }
-
