@@ -18,4 +18,11 @@ comm_test_mpi1_R.c = Added internal benchmarking
 comm_test_mpi1_I.c = Added internal benchmarking
 Part 2:
 Step 1:
+pingpong.c
+Step 2:
+---
+Step 3:
+pingpong1.c
+Part 3:
+Step 1:
 
