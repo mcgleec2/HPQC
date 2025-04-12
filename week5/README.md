@@ -27,4 +27,38 @@ Along with this both programs give the output file as an argument too,
 and for the animate_line_file1.py program the input file to be used is also an argument.
 
 Part 2:
+Step 1:
+Patterns of Iteration:
+- Outer loop: Time steps
+- Inner loop: Points along the string
+- Updating positions: Update positions func and position array
+
+Sequential:
+- Time step: Each iteration relies on the previous one
+- Writing data to file: fprintf() wites results to file after each time step
+
+Parallel: 
+- Points along the string: Independently update each point position
+
+Parallelisation:
+- Splits the points into chunkc, each of which is dealt with by seperate processor
+- Update each chunk of points for the current time step
+- Each chunk will need to communicate with its neighbouring chunks
+- Share boundary of one chunk with its neighbour
+- Move on to next step and repeat process
+
+Step 2: 
+- Can't have multiple processes writing to the same file so,
+- Need to combine reults before writing to file
+- Parallel code so each process has its own chunk which need to be combined
+- Hold the results in memory, combine them together, then write thefukk set to file
+- Use MPI_Gather to combine MPI result to root process
+- Write teh data to file and then perfoem benchmarking of code.
+
+Step 3:
+
+
+
+
+
 
