@@ -56,9 +56,12 @@ Step 2:
 - Write teh data to file and then perfoem benchmarking of code.
 
 Step 3:
+- Each process handles a section of the string
+- Root process writes to the output file
+- Each process will calculae it sown position then send to root process for each time step/
 
-
-
-
-
-
+Step 4:
+- Added in velocity and acceleration vectors
+- used constants k and m and a step_size, dt
+- Modified updaet_positions function to get the accerlation using spring force equation, then update velocity and position using Euler intergation method
+- Added updaets to main to initialise and free velocity an dacceleration too.
